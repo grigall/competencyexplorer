@@ -2,6 +2,7 @@
     font-size: 18px;
     margin: 0rem;
     padding: 0rem;
+    font-family: "Arial Black", sans-serif;
 }
 
 body {
@@ -10,6 +11,7 @@ body {
 
 a {
     text-decoration: none;
+    cursor: pointer;
 }
 
 nav {
@@ -20,7 +22,7 @@ nav {
     align-items: center;
     justify-content: center;
     align-content: center;
-    font-family: "Arial Black", sans-serif;
+
     color: grey;
     background-color: rgb(240,240,240);
 }
@@ -52,16 +54,47 @@ nav a:hover {
 }
 
 nav img {
-
+    opacity: 0.5;
     width: 100%;
     height: relative;
     overflow: hidden;
 }
 
+#menu-dropdown {
+    position: absolute;
+    top: 4rem;
+    right: 0rem;
+    background-color: rgb(200,200,200);
+    display: flex;
+    flex-direction: column;
+    height: relative;
+    width: 12rem;
+}
+
+#menu-dropdown a {
+    font-size: 0.8rem;
+    display: flex;
+    height: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    border-top: solid 0.1rem rgb(240,240,240);
+    background-color: inherit;
+    color: #555;
+}
+
+#menu-dropdown a:hover {
+    background-color: rgb(240,240,240);
+
+}
+
 #tree-nav {
     margin-top: 4rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     align-content: center;
@@ -69,14 +102,46 @@ nav img {
     width: 100%;
 }
 
-#tree-nav:hover {
-    background-color:rgb(240,240,240);
+#tree-nav img {
+    opacity: 0.3;
+    width: 8rem;
+    height: 8rem;
+    background-color: inherit;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+    transform: translate(-8rem, -12rem);
 }
 
-#tree-nav img {
-    width: 80%;
-    height: relative;
-    background-color: inherit;
+.nav-button {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+    transform: translate(-8rem, -6rem);
+}
+
+#tree-nav a {
+    margin: 1rem;
+    width: 8rem;
+    height: 4rem;
+    background-color: rgb(240,240,240);
+    color: grey;
+    font-size: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    border: solid 0.1rem grey;
+}
+
+#tree-nav a:hover {
+    background-color: rgb(247, 148, 30);
+    color: #555;
 }
 
 footer {
@@ -90,14 +155,57 @@ footer {
     font-family: arial;
 }
 
-.popUp {
-    padding: 1rem 2rem;
+#popUp {
+    padding: 0rem 2rem;
     position: fixed;
-    height: relative;
+    height: 70%;
     width: relative;
     left: 50%;
     top: 50%;
+    transform-origin: center;
+    transform: translate(-50%, -50%);
     z-index: 10;
+    background-color: rgba(240,240,240, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+#popUp a {
+    background-color: rgb(160, 160, 160);
+    color: whitesmoke;
+    width: 100%;
+    height: 2rem;
+    position: fixed;
+    bottom: 0rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+#popUp a:hover {
+    background-color:  rgb(247, 148, 30);
+    color:#555;
+}
+
+#popUp p {
+    text-align: left;
+}
+
+.popUpHeader {
+    background-color: rgb(160, 160, 160);
+    width: 100%;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    position: fixed;
+    top: 0rem;
+    color: whitesmoke;
 }
 
 /*If screen size is more than 600px, adjust a few things*/
