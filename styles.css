@@ -208,6 +208,16 @@ footer {
     color: whitesmoke;
 }
 
+.subMenuButtons {
+    position: fixed;
+    height: relative;
+    width: relative;
+    left: 50%;
+    top: 50%;
+    transform-origin: center;
+    transform: translate(-50%, -50%);
+}
+
 /*If screen size is more than 600px, adjust a few things*/
 @media only screen and (min-width: 600px) {
     nav {

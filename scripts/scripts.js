@@ -1,24 +1,17 @@
 class CompanyInfo {
-    constructor (fullName, shortName, slogan, otherInfo) {
+    constructor (fullName, shortName, slogan, otherInfo, logo) {
         this.fullName = fullName;
         this.shortName = shortName;
         this.slogan = slogan;
         this.otherInfo = otherInfo;
+        this.logo = logo;
     };
 };
 
 class Competency {
-    constructor (className, attribute_1, attribute_2, attribute_3, attribute_4, attribute_5, attribute_6, attribute_7, attribute_8, attribute_9) {
-        this.className = className;
-        this.attribute_1 = attribute_1;
-        this.attribute_2 = attribute_2;
-        this.attribute_3 = attribute_3;
-        this.attribute_4 = attribute_4;
-        this.attribute_5 = attribute_5;
-        this.attribute_6 = attribute_6;
-        this.attribute_7 = attribute_7;
-        this.attribute_8 = attribute_8;
-        this.attribute_9 = attribute_9;
+    constructor (name, attributes) {
+        this.name = name;
+        this.attributes = attributes; //Array of attributes
 
     };
 };
@@ -33,18 +26,17 @@ class ServiceArea {
     };
 }
 
-let termOne = 'Competency';
-let coreComps = new Competency ('Core Competencies', 'Critical Thinking', 'Decisiveness', 'Follow-Through', 'Initiative', 'Openness to Learning', 'Oral Communication', 'Organization & Planning', 'Relationship Building', 'Time Management');
-let leadComps = new Competency ('Lead and Supervisory Competencies', 'Leadership', 'Cross-Team Communication', 'Collaborative Relationship Building', 'Results Focus', null, null, null, null, null);
-let termTwo = 'Service Area';
-let serviceAreas = new ServiceArea ('Service Area', 'Education', 'ERSEA');
+let termOne = new Competency ('Competency', ['Core Competencies', 'Lead and Supervisory Competencies', null, null, null, null, null, null, null]);
+let coreComps = new Competency ('Core Competencies', ['Critical Thinking', 'Decisiveness', 'Follow-Through', 'Initiative', 'Openness to Learning', 'Oral Communication', 'Organization & Planning', 'Relationship Building', 'Time Management']);
+let leadComps = new Competency ('Lead and Supervisory Competencies', ['Leadership', 'Cross-Team Communication', 'Collaborative Relationship Building', 'Results Focus', null, null, null, null, null]);
+let termTwo = new ServiceArea ('Service Area', 'Education', 'ERSEA', null, null);
 
 //Instantiate class for debugging purposes. Pull in .csv file later.
 let company;
 
-let company_two = new CompanyInfo ('Oregon Child Development Coalition', 'OCDC', 'Something flashy', null);
+let company_two = new CompanyInfo ('Oregon Child Development Coalition', 'OCDC', 'Something flashy', null, 'tree.png');
 
-let company_one = new CompanyInfo ('CyberDyne Systems Corporation', 'CDS', 'There is no fate but what we make for ourselves', null);
+let company_one = new CompanyInfo ('CyberDyne Systems Corporation', 'CDS', 'There is no fate but what we make for ourselves', null, 'CDS_logo.webp');
 
 company = company_one;
 
@@ -57,15 +49,20 @@ function splashScreen() {
         </nav>
         
         <div id='tree-nav'>
-            <img src='./static/tree.png';>
-            <div class='nav-button'>
-                <a>Explore by `+ termOne +`</a>
-                <a>Explore by `+ termTwo +`</a>
+            <img src='./static/`+ company.logo +`';>
+            <div class='nav-button' id='nav-button'>
+                <a class='root-nav-button' id='nav-button-one'>Explore by `+ termOne.name +`</a>
+                <a class='root-nav-button' id='nav-button-two'>Explore by `+ termTwo.name +`</a>
             </div>
         </div>
 
         <footer>&#169; 2020 `+ company.fullName +`</footer>
     `);
+
+    var button1 = document.getElementById('nav-button-one');
+    button1.setAttribute('onclick', 'subMenuScreen("comps")');
+    var button2 = document.getElementById('nav-button-two');
+    button2.setAttribute('onclick', 'subMenuScreen("areas")');
 };
 
 function dropDownMenu() {
@@ -152,4 +149,46 @@ function popUpDefinition(nodeID) {
 function closePopUp(popUpID) {
     document.getElementById('splash').removeChild(popUpID);
     document.getElementById('tree-nav').style.display = 'flex';
+};
+
+function subMenuScreen(menuButton) {
+    //alert('This worked so far!');
+
+    
+    //Remove menu navigation buttons but keep company logo in background
+    var rootUnwantedNode = document.getElementById('nav-button');
+    var unwantedNode1 = document.getElementById('nav-button-one');
+    var unwantedNode2 = document.getElementById('nav-button-two');
+    rootUnwantedNode.removeChild(unwantedNode1);
+    rootUnwantedNode.removeChild(unwantedNode2);
+
+    //Link to relevant object
+    var menuSelection;
+    if (menuButton == 'comps') {
+        menuSelection = termOne;
+        alert(menuSelection.attributes);
+
+    } else if (menuSelection == 'areas') {
+        menuSelection = termTwo;
+
+    };
+    
+    var rootNode = document.getElementById('nav-button');
+    
+    //Loop over menu items
+    var i;
+    for (i=0; i < menuSelection.attributes.length; i++) {
+        if (i != null) {
+            var node = document.createElement('a');
+            node.className = 'subMenuButtons';
+            var content = document.createTextNode(menuSelection.attributes[i]);
+            node.appendChild(content);
+            rootNode.appendChild(node);
+        } else {
+            continue;
+        };
+               
+    };
+    
+
 };
