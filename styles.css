@@ -7,6 +7,9 @@
 
 body {
     background-color: white;
+    height: 100%;
+    width: 100%;
+    display: flex;
 }
 
 a {
@@ -14,6 +17,7 @@ a {
     cursor: pointer;
 }
 
+/*
 nav {
     width: 100%;
     height: 8rem;
@@ -35,22 +39,52 @@ nav h1 {
 }
 
 nav a {
-    margin: 0rem;
-    padding: 0rem 2rem;
-    height: 8rem;
-    width: relative;
-    font-size: 4rem;
     color: grey;
-    position: fixed;
-    right: 0rem;
-    top: 0rem;
     display: flex;
     align-items: center;
+    justify-content: center;
+    align-content: center;
 }
 
 nav a:hover {
     background-color: lightgrey;
     color: rgb(247, 148, 30);
+}
+
+#menu-button {
+    position: fixed;
+    right: 0rem;
+    top: 0rem;
+    margin: 0rem;
+    padding: 0rem 1rem;
+    height: relative;
+    width: relative;
+    
+    color: grey;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+#home-button {
+    position: fixed;
+    left: 0rem;
+    top: 0rem;
+    margin: 0rem;
+    padding: 0rem 1rem 0rem 1rem;
+    height: relative;
+    color: grey;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
 }
 
 nav img {
@@ -92,14 +126,14 @@ nav img {
 }
 
 #tree-nav {
-    margin-top: 4rem;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     align-content: center;
-    height: relative;
+    height: 100%;
     width: 100%;
+    background-color: lawngreen;
 }
 
 #tree-nav img {
@@ -112,6 +146,7 @@ nav img {
     left: 50%;
     transform-origin: center;
     transform: translate(-8rem, -12rem);
+    z-index: -1;
 }
 
 .nav-button {
@@ -217,8 +252,8 @@ footer {
     transform-origin: center;
     transform: translate(-50%, -50%);
 }
-
-/*If screen size is more than 600px, adjust a few things*/
+*/
+/*If screen size is more than 600px, adjust a few things
 @media only screen and (min-width: 600px) {
     nav {
         height: 4rem;
@@ -240,3 +275,4 @@ footer {
     }
 
 }
+*/

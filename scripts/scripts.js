@@ -24,12 +24,22 @@ class ServiceArea {
         this.area3 = area3;
         this.area4 = area4;
     };
+};
+
+class Outcome {
+    constructor (name, type, linkedComps, description) {
+        this.name = name;
+        this.type = type;
+        this.linkedComps = linkedComps;
+        this.description = description;
+    };
 }
 
 let termOne = new Competency ('Competency', ['Core Competencies', 'Lead and Supervisory Competencies', null, null, null, null, null, null, null]);
 let coreComps = new Competency ('Core Competencies', ['Critical Thinking', 'Decisiveness', 'Follow-Through', 'Initiative', 'Openness to Learning', 'Oral Communication', 'Organization & Planning', 'Relationship Building', 'Time Management']);
 let leadComps = new Competency ('Lead and Supervisory Competencies', ['Leadership', 'Cross-Team Communication', 'Collaborative Relationship Building', 'Results Focus', null, null, null, null, null]);
 let termTwo = new ServiceArea ('Service Area', 'Education', 'ERSEA', null, null);
+let termThree = new Outcome ('Outcome', 'Outcome', null, 'List of outcomes');
 
 //Instantiate class for debugging purposes. Pull in .csv file later.
 let company;
@@ -45,7 +55,8 @@ function splashScreen() {
     splash.innerHTML = (`
         <nav id='nav-section'>
             <h1>` + company.shortName +` Competency Explorer</h1>
-            <a href=# id='menu-button' onclick='dropDownMenu()'>&#9776;</a>
+            <a href=# id='menu-button' onclick='dropDownMenu()' title='Menu'>&#9776;</a>
+            <a href=# id='home-button' title='Home' >&#9964;</a>
         </nav>
         
         <div id='tree-nav'>
@@ -53,6 +64,7 @@ function splashScreen() {
             <div class='nav-button' id='nav-button'>
                 <a class='root-nav-button' id='nav-button-one'>Explore by `+ termOne.name +`</a>
                 <a class='root-nav-button' id='nav-button-two'>Explore by `+ termTwo.name +`</a>
+                <a class='root-nav-button' id='nav-button-two'>Explore by `+ termThree.name +`</a>
             </div>
         </div>
 
@@ -109,7 +121,7 @@ function popUpDefinition(nodeID) {
     if (nodeID == 'faq') {
         //Text content for page
         header = document.createTextNode('Contact Information');
-        content = document.createTextNode('Point of Contact: Shelly Jackson');
+        content = document.createTextNode('Point of Contact: Ms. Jackson');
         
         //Add element to page and content to element
         nodeHeader.appendChild(header);
