@@ -226,7 +226,7 @@ function enumSubMenuItems (subMenu) {
 
     var childNodes = Object.keys(rootNode.children).length;
 
-    alert(childNodes);
+    //alert(childNodes); //for debugging
     if (elementExists == true) {
         for (i=0; i < childNodes; i++) {
             var unwantedElement = document.getElementById('sub-nav-button' + String(i));
