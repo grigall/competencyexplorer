@@ -5,11 +5,17 @@
     font-family: "Arial Black", sans-serif;
 }
 
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 80% 1fr;
+    grid-template-rows: 4rem auto 1rem;
+    background-color: rgb(200,200,200);
+    gap: 0.05rem;
+}
+
 body {
-    background-color: white;
-    height: 100%;
-    width: 100%;
-    display: flex;
+    background-color: transparent;
+    height: 100vh;
 }
 
 a {
@@ -17,38 +23,84 @@ a {
     cursor: pointer;
 }
 
-/*
-nav {
+.header {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 1;
+
     width: 100%;
-    height: 8rem;
+    height: 4rem;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     align-content: center;
 
-    color: grey;
-    background-color: rgb(240,240,240);
+    background-color: rgb(200,200,200);
 }
 
-nav h1 {
+.header h1 {
     font-size: 2rem;
     height: 100%;
     display: flex;
     align-items: center;
 }
 
-nav a {
-    color: grey;
+.header a {
+    color:grey;
     display: flex;
     align-items: center;
     justify-content: center;
     align-content: center;
+    font-size: 2rem;
+    font-weight: 700;
 }
 
-nav a:hover {
-    background-color: lightgrey;
+.header a:hover {
+    background-color:rgb(200,200,200);
     color: rgb(247, 148, 30);
+}
+
+.center-item {
+    grid-column-start: 2;
+    grid-row-start: 2;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    background: rgb(240,240,240) url('./static/tree.png') center no-repeat;
+    background-size: 70%;
+
+}
+
+.left-item {
+    background-color: rgb(240,240,240);
+}
+
+.right-item {
+    background-color: rgb(240,240,240);
+}
+
+.footer {
+    font-size: 0.8rem;
+    text-align: center;
+    color: grey;
+    font-family: arial;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 3;
+    background-color: rgb(240,240,240);
+}
+
+#home-button {
+    height: 100%;
+}
+
+#home-button:hover {
+    background-color:rgb(200,200,200);
 }
 
 #menu-button {
@@ -57,42 +109,33 @@ nav a:hover {
     top: 0rem;
     margin: 0rem;
     padding: 0rem 1rem;
-    height: relative;
-    width: relative;
-    
-    color: grey;
-    display: flex;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 700;
+    height: 4rem;
 }
 
-#home-button {
-    position: fixed;
-    left: 0rem;
-    top: 0rem;
-    margin: 0rem;
-    padding: 0rem 1rem 0rem 1rem;
-    height: relative;
-    color: grey;
+.nav-button {
+    margin: 1rem;
+    padding: 0rem 1rem;
+    width: 40%;
+    min-height: 4rem;
+    height: auto;
+    background-color: rgba(132, 184, 49, 0.8);
+    color: black;
+    font-size: auto;
     display: flex;
+    justify-content: center;
     align-items: center;
     align-content: center;
-    justify-content: center;
     text-align: center;
-    font-size: 2rem;
-    font-weight: 700;
+    border: solid 0.05rem rgb(104, 121, 9);
+    border-radius: 0.5rem;
 }
 
-nav img {
-    opacity: 0.5;
-    width: 100%;
-    height: relative;
-    overflow: hidden;
+.nav-button:hover {
+    background-color: rgba(240,240,240, 0.8);
+    color: #555;
 }
+
+
 
 #menu-dropdown {
     position: absolute;
@@ -125,70 +168,96 @@ nav img {
 
 }
 
-#tree-nav {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
+#popUp {
+    grid-column-start: 2;
+    grid-row-start: 2;
+    z-index: 10;
     height: 100%;
     width: 100%;
-    background-color: lawngreen;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 2rem auto 2rem;
+    background-color: rgba(200,200,200,0.9);
+    transform: scale(0.9);
+    border-radius: 0.5rem;
 }
 
-#tree-nav img {
-    opacity: 0.3;
-    width: 8rem;
-    height: 8rem;
-    background-color: inherit;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform-origin: center;
-    transform: translate(-8rem, -12rem);
-    z-index: -1;
-}
-
-.nav-button {
+.popUpHeader {
+    background-color: rgb(160, 160, 160);
+    width: 100%;
     display: flex;
-    flex-direction: row;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform-origin: center;
-    transform: translate(-8rem, -6rem);
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    color: whitesmoke;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    grid-row-start: 1;
 }
 
-#tree-nav a {
-    margin: 1rem;
-    width: 8rem;
-    height: 4rem;
+.popUpContent {
+    width: auto;
+    height: auto;
+    grid-row-start: 2;
+    grid-row-end: 2;
+    padding: 2rem;
+}
+
+.popUpContent p {
+    padding: 0.5rem 1rem;
+    margin: 0.1rem;
+    font-family: 'Arial';
+    font-weight: 700;
+    text-align: left;
+    width: auto;
+    height: auto;
     background-color: rgb(240,240,240);
-    color: grey;
+    display: flex;
+    align-items: center;
+}
+
+.popUpClose {
+    background-color: rgb(160, 160, 160);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    color: whitesmoke;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    grid-row-start: 3;
+}
+
+.popUpClose:hover {
+    background-color:  rgb(247, 148, 30);
+    color:#555;
+}
+
+.sub-nav-button {
+    margin: 0.2rem;
+    padding: 0rem 1rem;
+    width: 40%;
+    min-height: 4rem;
+    height: auto;
+    background-color: rgba(72, 94, 38, 0.8);
+    color: whitesmoke;
     font-size: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     align-content: center;
     text-align: center;
-    border: solid 0.1rem grey;
+    border: solid 0.05rem rgb(104, 121, 9);
+    border-radius: 0.5rem;
 }
 
-#tree-nav a:hover {
-    background-color: rgb(247, 148, 30);
+.sub-nav-button:hover {
+    background-color: rgba(240,240,240, 0.8);
     color: #555;
 }
+/*
 
-footer {
-    font-size: 1rem;
-    position: fixed;
-    bottom: 0rem;
-    width: 100%;
-    height: relative;
-    text-align: center;
-    color: grey;
-    font-family: arial;
-}
 
 #popUp {
     padding: 0rem 2rem;
@@ -230,14 +299,9 @@ footer {
     text-align: left;
 }
 
-.popUpHeader {
-    background-color: rgb(160, 160, 160);
-    width: 100%;
+
     height: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
+    
     position: fixed;
     top: 0rem;
     color: whitesmoke;

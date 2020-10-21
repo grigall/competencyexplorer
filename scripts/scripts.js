@@ -17,12 +17,9 @@ class Competency {
 };
 
 class ServiceArea {
-    constructor (name, area1, area2, area3, area4) {
+    constructor (name, attributes) {
         this.name = name;
-        this.area1 = area1;
-        this.area2 = area2;
-        this.area3 = area3;
-        this.area4 = area4;
+        this.attributes = attributes;
     };
 };
 
@@ -38,7 +35,7 @@ class Outcome {
 let termOne = new Competency ('Competency', ['Core Competencies', 'Lead and Supervisory Competencies', null, null, null, null, null, null, null]);
 let coreComps = new Competency ('Core Competencies', ['Critical Thinking', 'Decisiveness', 'Follow-Through', 'Initiative', 'Openness to Learning', 'Oral Communication', 'Organization & Planning', 'Relationship Building', 'Time Management']);
 let leadComps = new Competency ('Lead and Supervisory Competencies', ['Leadership', 'Cross-Team Communication', 'Collaborative Relationship Building', 'Results Focus', null, null, null, null, null]);
-let termTwo = new ServiceArea ('Service Area', 'Education', 'ERSEA', null, null);
+let termTwo = new ServiceArea ('Service Area', ['Education', 'ERSEA', 'Food Services', null]);
 let termThree = new Outcome ('Outcome', 'Outcome', null, 'List of outcomes');
 
 //Instantiate class for debugging purposes. Pull in .csv file later.
@@ -53,37 +50,40 @@ company = company_one;
 function splashScreen() {
     let splash = document.getElementById('splash');
     splash.innerHTML = (`
-        <nav id='nav-section'>
-            <h1>` + company.shortName +` Competency Explorer</h1>
-            <a href=# id='menu-button' onclick='dropDownMenu()' title='Menu'>&#9776;</a>
-            <a href=# id='home-button' title='Home' >&#9964;</a>
-        </nav>
         
-        <div id='tree-nav'>
-            <img src='./static/`+ company.logo +`';>
-            <div class='nav-button' id='nav-button'>
-                <a class='root-nav-button' id='nav-button-one'>Explore by `+ termOne.name +`</a>
-                <a class='root-nav-button' id='nav-button-two'>Explore by `+ termTwo.name +`</a>
-                <a class='root-nav-button' id='nav-button-two'>Explore by `+ termThree.name +`</a>
-            </div>
-        </div>
+        <nav id='nav-section' class='header'>
+            <a href=# id='home-button' onclick='splashScreen()' title='Home'><h1>` + company.shortName +` Competency Explorer</h1></a>
+            <a href=# id='menu-button' onclick='dropDownMenu()' title='Menu'>&#9776;</a>
+        </nav>
 
-        <footer>&#169; 2020 `+ company.fullName +`</footer>
+        <div class='left-item'></div>
+        <div class='center-item' id='center-item'>
+            <a class='nav-button' id='nav-button0'>Explore by `+ termOne.name +`</a>
+            <a class='nav-button' id='nav-button1'>Explore by `+ termTwo.name +`</a>
+            <a class='nav-button' id='nav-button2'>Explore by `+ termThree.name +`</a>
+            <div class='background-img'></div>
+        </div>
+        <div class='right-item'></div>
+
+        <div class='footer'>&#169; 2020 `+ company.fullName +`</div>
+        
     `);
 
-    var button1 = document.getElementById('nav-button-one');
+    var button1 = document.getElementById('nav-button0');
     button1.setAttribute('onclick', 'subMenuScreen("comps")');
-    var button2 = document.getElementById('nav-button-two');
+    var button2 = document.getElementById('nav-button1');
     button2.setAttribute('onclick', 'subMenuScreen("areas")');
+    var button3 = document.getElementById('nav-button2');
+    button3.setAttribute('onclick', 'subMenuScreen("outcomes")');
 };
 
 function dropDownMenu() {
+    //Checks for existence of pop-up then destroys it if it exists
     var popUpElement = document.getElementById('popUp');
     var elementExists = document.body.contains(popUpElement);
 
     if (elementExists == true) {
         document.getElementById('splash').removeChild(popUpElement);
-        document.getElementById('tree-nav').style.display = 'flex';
     };
 
     var node = document.createElement('div');
@@ -111,10 +111,13 @@ function popUpDefinition(nodeID) {
     rootNode.id = 'popUp';
     var nodeHeader = document.createElement('h2');
     nodeHeader.className = 'popUpHeader';
+    var nodeContent = document.createElement('div');
+    nodeContent.className = 'popUpContent';
 
     //Pop-up close button
     var closeButton = document.createElement('a');
     closeButtonContent = document.createTextNode('CLOSE');
+    closeButton.className = 'popUpClose';
     closeButton.appendChild(closeButtonContent);
     closeButton.setAttribute('onclick', `closePopUp(`+rootNode.id+`)`);
 
@@ -129,7 +132,7 @@ function popUpDefinition(nodeID) {
         nodeBody.appendChild(content);
         
         rootNode.appendChild(nodeHeader);
-        rootNode.appendChild(nodeBody);
+        nodeContent.appendChild(nodeBody);
         
     } else if (nodeID == 'contact') {
         //Text content for page
@@ -145,10 +148,11 @@ function popUpDefinition(nodeID) {
         nodeBody2.appendChild(content2);
 
         rootNode.appendChild(nodeHeader);
-        rootNode.appendChild(nodeBody);
-        rootNode.appendChild(nodeBody2);
+        nodeContent.appendChild(nodeBody);
+        nodeContent.appendChild(nodeBody2);
     };
 
+    rootNode.appendChild(nodeContent);
     rootNode.appendChild(closeButton);
 
     //Add pop-up to body of page
@@ -164,43 +168,99 @@ function closePopUp(popUpID) {
 };
 
 function subMenuScreen(menuButton) {
-    //alert('This worked so far!');
+    //Removes all the base navigation buttons from screen but leaves the background image
+    var unwantedNodes = document.getElementsByClassName('nav-button');
+    while (unwantedNodes.length > 0) {
+        unwantedNodes[0].parentNode.removeChild(unwantedNodes[0]);
+    };
 
+    var rootNode = document.getElementById('center-item');
     
-    //Remove menu navigation buttons but keep company logo in background
-    var rootUnwantedNode = document.getElementById('nav-button');
-    var unwantedNode1 = document.getElementById('nav-button-one');
-    var unwantedNode2 = document.getElementById('nav-button-two');
-    rootUnwantedNode.removeChild(unwantedNode1);
-    rootUnwantedNode.removeChild(unwantedNode2);
-
-    //Link to relevant object
-    var menuSelection;
     if (menuButton == 'comps') {
-        menuSelection = termOne;
-        alert(menuSelection.attributes);
-
-    } else if (menuSelection == 'areas') {
-        menuSelection = termTwo;
-
+        enumMenuItems(termOne.attributes, rootNode, 'nav-button'); //First arg must be an array!!
+    } else if (menuButton == 'areas') {
+        enumMenuItems(termTwo.attributes, rootNode, 'nav-button');
+    } else if (menuButton == 'outcomes') {
+        alert('Outcomes');
     };
-    
-    var rootNode = document.getElementById('nav-button');
-    
-    //Loop over menu items
+
+    var buttons = document.getElementsByClassName('nav-button');
     var i;
-    for (i=0; i < menuSelection.attributes.length; i++) {
-        if (i != null) {
-            var node = document.createElement('a');
-            node.className = 'subMenuButtons';
-            var content = document.createTextNode(menuSelection.attributes[i]);
-            node.appendChild(content);
-            rootNode.appendChild(node);
-        } else {
-            continue;
-        };
-               
-    };
-    
+    for (i=0; i < buttons.length; i++) {
+        var button_id = 'nav-button' + String(i)
+        var text = document.getElementById(button_id).innerText;
+        var button = document.getElementById(button_id);
 
+        if (text == 'Core Competencies') {
+            button.setAttribute('onclick', 'enumSubMenuItems ("core_comps")');
+            button.className = 'nav-button';
+        } else if (text == 'Lead and Supervisory Competencies') {
+            button.setAttribute('onclick', 'enumSubMenuItems ("lead_comps")');
+            button.className = 'nav-button';
+        };
+    };
+};
+
+function enumMenuItems(object, parentDiv, newClass) {
+    if (object.length > 0) {
+        var i;
+        for (i=0; i < object.length; i++) {
+            if (object[i] != null) {
+                var node = document.createElement('a');
+                var content = document.createTextNode(object[i]);
+                node.appendChild(content);
+                node.className = newClass;
+                node.id = String(node.className) + String(i);
+                parentDiv.appendChild(node);
+            };
+        };
+    };
+};
+
+function enumSubMenuItems (subMenu) {
+    //Define root node
+    var rootNode = document.getElementById('center-item');
+
+    var unwantedNode = document.getElementById('sub-nav-button0');
+    var elementExists = rootNode.contains(unwantedNode);
+
+    var childNodes = Object.keys(rootNode.children).length;
+
+    alert(childNodes);
+    if (elementExists == true) {
+        for (i=0; i < childNodes; i++) {
+            var unwantedElement = document.getElementById('sub-nav-button' + String(i));
+            rootNode.removeChild(unwantedElement);
+        };
+    };
+        
+    var subMenuSelection; //Must be array
+
+    if (subMenu == 'core_comps') {
+        subMenuSelection = coreComps.attributes;
+    } else if (subMenu == 'lead_comps') {
+        subMenuSelection = leadComps.attributes;
+    };
+
+    enumMenuItems(subMenuSelection, rootNode, 'sub-nav-button');
+};
+
+function fleshOutItem (itemName) {
+    //Removes all the base navigation buttons from screen but leaves the background image
+    var unwantedNodes = document.getElementsByClassName('nav-button');
+    while (unwantedNodes.length > 0) {
+        unwantedNodes[0].parentNode.removeChild(unwantedNodes[0]);
+    };
+
+    var rootNode = document.getElementById('center-item');
+    
+    var buttons = document.getElementsByClassName('nav-button');
+    var i;
+    for (i=0; i < buttons.length; i++) {
+        var button_id = 'nav-button' + String(i)
+        var text = document.getElementById(button_id).innerText;
+        var button = document.getElementById(button_id);
+
+
+    };
 };
