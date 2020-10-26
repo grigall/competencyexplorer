@@ -11,7 +11,7 @@ class CompanyInfo {
 class Competency {
     constructor (name, attributes) {
         this.name = name;
-        this.attributes = attributes; //Array of attributes
+        this.attributes = attributes; //Array of attributes or body of text if an individual attribute
 
     };
 };
@@ -35,8 +35,12 @@ class Outcome {
 let termOne = new Competency ('Competency', ['Core Competencies', 'Lead and Supervisory Competencies', null, null, null, null, null, null, null]);
 let coreComps = new Competency ('Core Competencies', ['Critical Thinking', 'Decisiveness', 'Follow-Through', 'Initiative', 'Openness to Learning', 'Oral Communication', 'Organization & Planning', 'Relationship Building', 'Time Management']);
 let leadComps = new Competency ('Lead and Supervisory Competencies', ['Leadership', 'Cross-Team Communication', 'Collaborative Relationship Building', 'Results Focus', null, null, null, null, null]);
-let termTwo = new ServiceArea ('Service Area', ['Education', 'ERSEA', 'Food Services', null]);
+let termTwo = new ServiceArea ('Service Area', ['Education', 'ERSEA', 'Food Services', 'Training and Professional Development']);
 let termThree = new Outcome ('Outcome', 'Outcome', null, 'List of outcomes');
+
+//Enter descriptions for all the competencies
+let description_1 = new Competency('Critical Thinking', 'Think carefully about, study, or examine a subject or idea');
+
 
 //Instantiate class for debugging purposes. Pull in .csv file later.
 let company;
@@ -159,12 +163,10 @@ function popUpDefinition(nodeID) {
     document.getElementById('splash').appendChild(rootNode);
     var unwantedNode = document.getElementById('menu-dropdown');
     document.getElementById('splash').removeChild(unwantedNode); //Remove drop-down menu
-    document.getElementById('tree-nav').style.display = 'None'; //Hide home screen splash
 };
 
 function closePopUp(popUpID) {
     document.getElementById('splash').removeChild(popUpID);
-    document.getElementById('tree-nav').style.display = 'flex';
 };
 
 function subMenuScreen(menuButton) {
@@ -177,13 +179,16 @@ function subMenuScreen(menuButton) {
     var rootNode = document.getElementById('center-item');
     
     if (menuButton == 'comps') {
-        enumMenuItems(termOne.attributes, rootNode, 'nav-button'); //First arg must be an array!!
+        alert('Comps works.');
+        enumMenuItems(termOne.attributes, rootNode, 'nav-button', 'enumMenuItems', 'coreComps.attributes, rootNode, "sub-nav-button", "menuButtonAction", coreComps.attributes'); //First and last arg must be arrays!!!
     } else if (menuButton == 'areas') {
-        enumMenuItems(termTwo.attributes, rootNode, 'nav-button');
+        alert('Service Area works');
+        enumMenuItems(termTwo.attributes, rootNode, 'nav-button', 'menuButtonAction', termTwo.attributes);
     } else if (menuButton == 'outcomes') {
         alert('Outcomes');
     };
 
+    /*
     var buttons = document.getElementsByClassName('nav-button');
     var i;
     for (i=0; i < buttons.length; i++) {
@@ -198,10 +203,10 @@ function subMenuScreen(menuButton) {
             button.setAttribute('onclick', 'enumSubMenuItems ("lead_comps")');
             button.className = 'nav-button';
         };
-    };
+    };*/
 };
 
-function enumMenuItems(object, parentDiv, newClass) {
+function enumMenuItems(object, parentDiv, newClass, subFunctionName, subFunctionArg) {
     if (object.length > 0) {
         var i;
         for (i=0; i < object.length; i++) {
@@ -211,10 +216,22 @@ function enumMenuItems(object, parentDiv, newClass) {
                 node.appendChild(content);
                 node.className = newClass;
                 node.id = String(node.className) + String(i);
+                
+                //Check argument data type
+                if (Array.isArray(subFunctionArg)) {
+                    node.setAttribute('onclick', subFunctionName + `('`+ subFunctionArg[i] +`')`); //Dynamically set onclick function call through iteration
+                } else {
+                    node.setAttribute('onclick', subFunctionName + `('` + subFunctionArg +`')`); //Pass string of args from complex function
+                };
+                 //subFunctionName variable must be string of function call
                 parentDiv.appendChild(node);
             };
         };
     };
+};
+
+function menuButtonAction (buttonID) {
+    alert(`This `+ buttonID +` button works!`);
 };
 
 function enumSubMenuItems (subMenu) {
@@ -243,24 +260,58 @@ function enumSubMenuItems (subMenu) {
     };
 
     enumMenuItems(subMenuSelection, rootNode, 'sub-nav-button');
-};
 
-function fleshOutItem (itemName) {
-    //Removes all the base navigation buttons from screen but leaves the background image
-    var unwantedNodes = document.getElementsByClassName('nav-button');
-    while (unwantedNodes.length > 0) {
-        unwantedNodes[0].parentNode.removeChild(unwantedNodes[0]);
-    };
-
-    var rootNode = document.getElementById('center-item');
-    
-    var buttons = document.getElementsByClassName('nav-button');
+    /*
+    var buttons = document.getElementsByClassName('sub-nav-button');
     var i;
     for (i=0; i < buttons.length; i++) {
-        var button_id = 'nav-button' + String(i)
+        var button_id = 'sub-nav-button' + String(i)
         var text = document.getElementById(button_id).innerText;
         var button = document.getElementById(button_id);
 
+        if (text == 'Critical Thinking') {
+            button.setAttribute('onclick', 'compPopUp("crit_think")');
+        } else {
+            alert('This item not yet available.')
+        };
+    };*/
+};
 
+function compPopUp (nodeID) {
+    //Variables and page elements for pop-up
+    var header;
+    var content;    
+    var rootNode = document.createElement('div');
+    rootNode.id = 'popUp';
+    var nodeHeader = document.createElement('h2');
+    nodeHeader.className = 'popUpHeader';
+    var nodeContent = document.createElement('div');
+    nodeContent.className = 'popUpContent';
+    var nodeBody = document.createElement('p');
+
+
+    //Pop-up close button
+    var closeButton = document.createElement('a');
+    closeButtonContent = document.createTextNode('CLOSE');
+    closeButton.className = 'popUpClose';
+    closeButton.appendChild(closeButtonContent);
+    closeButton.setAttribute('onclick', `closePopUp(`+rootNode.id+`)`);
+
+    if (nodeID == 'crit_think') {
+        header = description_1.name;
+        content = description_1.attributes;
+    } else {
+        header = document.createTextNode('Generic Header');
+        content = document.createTextNode('Placeholder Text');
     };
+
+    //Append nodes to pop-up box and elements
+    nodeHeader.appendChild(header);
+    nodeBody.appendChild(content);
+    nodeContent.appendChild(nodeBody);
+    rootNode.appendChild(nodeContent);
+    rootNode.appendChild(closeButton);
+
+    //Add pop-up to body of page
+    document.getElementById('splash').appendChild(rootNode);
 };
