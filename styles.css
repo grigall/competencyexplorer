@@ -257,7 +257,7 @@ a {
 }
 
 
-/*If screen size is more than 600px, adjust a few things*/
+/*If screen size is more than 600px, adjust a few things
 @media only screen and (max-width: 600px) {
 
     .grid {
@@ -268,3 +268,4 @@ a {
         height: 8rem;
     }
 }
+*/

@@ -81,6 +81,7 @@ function splashScreen() {
     button3.setAttribute('onclick', 'subMenuScreen("outcomes")');
 };
 
+//Drop-down menu for main navigation
 function dropDownMenu() {
     //Checks for existence of pop-up then destroys it if it exists
     var popUpElement = document.getElementById('popUp');
@@ -90,21 +91,27 @@ function dropDownMenu() {
         document.getElementById('splash').removeChild(popUpElement);
     };
 
+    //Create all drop-down elements
     var node = document.createElement('div');
     node.id = 'menu-dropdown';
     var node1 = document.createElement('a');
     node1.setAttribute('onclick', "popUpDefinition('faq')");
     var node2 = document.createElement('a');
     node2.setAttribute('onclick', 'popUpDefinition("contact")');
+    var node3 = document.createElement('a');
+    node3.setAttribute('onclick', 'splashScreen()');
     var content1 = document.createTextNode('Contact Us');
     var content2 = document.createTextNode('FAQ');
+    var content3 = document.createTextNode('Home');
     node1.appendChild(content1);
     node2.appendChild(content2);
+    node3.appendChild(content3);
+    node.appendChild(node3);
     node.appendChild(node2);
     node.appendChild(node1);
     
-
-    document.getElementById('splash').appendChild(node);
+    //Adds dropdown to DOM
+    document.getElementById('splash').appendChild(node); 
 };
 
 function popUpDefinition(nodeID) {
@@ -179,10 +186,8 @@ function subMenuScreen(menuButton) {
     var rootNode = document.getElementById('center-item');
     
     if (menuButton == 'comps') {
-        alert('Comps works.');
-        enumMenuItems(termOne.attributes, rootNode, 'nav-button', 'enumMenuItems', 'coreComps.attributes, rootNode, "sub-nav-button", "menuButtonAction", coreComps.attributes'); //First and last arg must be arrays!!!
+        enumMenuItems(termOne.attributes, rootNode, 'nav-button', 'enumMenuItems', Array(coreComps.attributes, rootNode, "sub-nav-button","menuButtonAction", coreComps.attributes));
     } else if (menuButton == 'areas') {
-        alert('Service Area works');
         enumMenuItems(termTwo.attributes, rootNode, 'nav-button', 'menuButtonAction', termTwo.attributes);
     } else if (menuButton == 'outcomes') {
         alert('Outcomes');
@@ -217,8 +222,11 @@ function enumMenuItems(object, parentDiv, newClass, subFunctionName, subFunction
                 node.className = newClass;
                 node.id = String(node.className) + String(i);
                 
+                if (subFunctionName == 'enumMenuItems') {
+                    node.setAttribute('onclick', subFunctionName + `(` + subFunctionArg +`)`); //Pass string of args from complex function
+                }
                 //Check argument data type
-                if (Array.isArray(subFunctionArg)) {
+                else if (Array.isArray(subFunctionArg)) {
                     node.setAttribute('onclick', subFunctionName + `('`+ subFunctionArg[i] +`')`); //Dynamically set onclick function call through iteration
                 } else {
                     node.setAttribute('onclick', subFunctionName + `('` + subFunctionArg +`')`); //Pass string of args from complex function
